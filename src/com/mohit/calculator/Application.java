@@ -10,7 +10,7 @@ public class Application {
 	    Scanner scanner = new Scanner(System.in);
 	    
 	    while (true) {
-	        System.out.println("\nEnter operation (add, subtract, multiply, divide, pow, sqrt, log, log10, sin, cos, tan, factorial) or 'exit' to quit:");
+	        System.out.println("\nEnter operation (add, subtract, multiply, divide, pow, sqrt, log, log10, sin, cos, tan, factorial, perm) or 'exit' to quit:");
 	        String operation = scanner.next();
 	        
 	        if (operation.equalsIgnoreCase("exit")) {
@@ -20,7 +20,20 @@ public class Application {
 
 	        // For operations requiring two inputs
 	        if (!operation.equalsIgnoreCase("sqrt") && !operation.equalsIgnoreCase("log") && !operation.equalsIgnoreCase("log10") && !operation.equalsIgnoreCase("sin") && !operation.equalsIgnoreCase("cos") && !operation.equalsIgnoreCase("tan") && !operation.equalsIgnoreCase("factorial")) {
-	            System.out.print("Enter first number: ");
+	        	if (operation.equalsIgnoreCase("perm")) {
+                    System.out.print("Enter total number of elements (n): ");
+                    int n = scanner.nextInt();
+                    System.out.print("Enter number of items to be selected (r): ");
+                    int r = scanner.nextInt();
+
+                    try {
+                        System.out.println("Result (Recursive): " + permutation(n, r));
+                        System.out.println("Result (Non-Recursive): " + permutationNonRecursive(n, r));
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                } else {
+	        	System.out.print("Enter first number: ");
 	            double num1 = scanner.nextDouble();
 	            System.out.print("Enter second number: ");
 	            double num2 = scanner.nextDouble();
@@ -45,7 +58,8 @@ public class Application {
 	                    System.out.println("Invalid operation.");
 	                    break;
 	            }
-	        } else {
+               }
+	        }else {
 	            // For operations requiring one input
 	            System.out.print("Enter number: ");
 	            double num = scanner.nextDouble();
@@ -73,6 +87,9 @@ public class Application {
 	                    // Factorial is a special case requiring an integer
 	                    System.out.println(" Result: " + factorial((int)num));
 	                    break;
+	               
+	              	
+	                
 	                default:
 	                    System.out.println("Invalid operation.");
 	                    break;
@@ -165,8 +182,40 @@ public static double tan(double angleDegrees) {
  return Math.tan(Math.toRadians(angleDegrees));
 }
 
+// Permutation calculation (recursive)
+public static long permutation(int n, int r) {
+    // Input validation
+    if (n < 0 || n > 100 || r < 0 || r > n) {
+        throw new IllegalArgumentException("Invalid input: Ensure 0 <= r <= n <= 100.");
+    }
+    return permutationHelper(n, r);
+}
+
+private static long permutationHelper(int n, int r) {
+    if (r == 0) {
+        return 1;
+    }
+    return n * permutationHelper(n - 1, r - 1);
+}
+
+// Permutation calculation (non-recursive)
+public static long permutationNonRecursive(int n, int r) {
+    // Input validation
+    if (n < 0 || n > 100 || r < 0 || r > n) {
+        throw new IllegalArgumentException("Invalid input: Ensure 0 <= r <= n <= 100.");
+    }
+    long result = 1;
+    for (int i = 0; i < r; i++) {
+        result *= (n - i);
+    }
+    return result;
+}
 
 }
+
+
+
+
 
 
 
