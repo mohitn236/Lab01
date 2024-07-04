@@ -104,6 +104,7 @@ public static long factorial(int num) {
 
 private static long factorialHelper(int originalNum, int num) {
  if (num <= 1) {
+	 System.out.println("\rCalculating factorial: 100%");
      return 1;
  }
  // Calculate progress and update progress bar
